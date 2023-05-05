@@ -33,6 +33,8 @@ public class SmtpTest {
 
     @BeforeEach
     public void setUp() {
+        mailhog.start();
+        
         smtpPort = mailhog.getMappedPort(PORT_SMTP);
         smtpHost = mailhog.getContainerIpAddress();
         Integer httpPort = mailhog.getMappedPort(PORT_HTTP);
