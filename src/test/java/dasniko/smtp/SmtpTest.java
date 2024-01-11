@@ -28,13 +28,13 @@ public class SmtpTest {
 
     @Container
     public static GenericContainer<?> mailhog = new GenericContainer<>("mailhog/mailhog")
-        .withExposedPorts(PORT_SMTP, PORT_HTTP)
-        .waitingFor(Wait.forHttp("/"));
+        .withExposedPorts(PORT_HTTP, PORT_SMTP)
+        .waitingFor(Wait.forHttp("/").forPort(PORT_HTTP));
 
     @BeforeEach
     public void setUp() {
         smtpPort = mailhog.getMappedPort(PORT_SMTP);
-        smtpHost = mailhog.getContainerIpAddress();
+        smtpHost = mailhog.getHost();
         Integer httpPort = mailhog.getMappedPort(PORT_HTTP);
 
         RestAssured.baseURI = "http://" + smtpHost;
